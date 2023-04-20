@@ -16,8 +16,8 @@ func main() {
 	router.HandleFunc("/car", services.AddCar).Methods("POST")
 	router.HandleFunc("/car/{id}", services.GetCarById).Methods("GET")
 	router.HandleFunc("/car", services.GetAllCars).Methods("GET")
-	router.HandleFunc("/car", services.UpdateCar).Methods("PUT")
-	router.HandleFunc("/car", services.DeleteCar).Methods("DELETE")
+	router.HandleFunc("/car/{id}", services.UpdateCar).Methods("PUT")
+	router.HandleFunc("/car/{id}", services.DeleteCar).Methods("DELETE")
 	http.Handle("/", router)
 
 	log.Fatal(http.ListenAndServe(":4000", router))
