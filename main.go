@@ -1,6 +1,7 @@
 package main
 
 import (
+	"gocar/config"
 	"gocar/services"
 	"log"
 	"net/http"
@@ -9,6 +10,7 @@ import (
 )
 
 func main() {
+	config.InitializeDB()
 	router := mux.NewRouter()
 
 	router.HandleFunc("/car", services.AddCar).Methods("POST")
@@ -16,7 +18,8 @@ func main() {
 	router.HandleFunc("/car", services.GetAllCars).Methods("GET")
 	router.HandleFunc("/car", services.UpdateCar).Methods("PUT")
 	router.HandleFunc("/car", services.DeleteCar).Methods("DELETE")
+	http.Handle("/", router)
 
-	log.Fatal(http.ListenAndServe(":1234", router))
+	log.Fatal(http.ListenAndServe(":4000", router))
 
 }

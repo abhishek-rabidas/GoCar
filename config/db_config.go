@@ -1,16 +1,22 @@
 package config
 
-import "database/sql"
+import (
+	"fmt"
+	"gocar/models"
 
-func Connect() *sql.DB {
-	dbDriver := "mysql"
-	dbUser := "root"
-	dbPass := "admin"
-	dbName := "gocar"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
+)
 
-	db, err := sql.Open(dbDriver, dbUser+":"+dbPass+"@/"+dbName)
+func InitializeDB() *gorm.DB {
+	dsn := "root:admin@tcp(127.0.0.1:3306)/gocar?charset=utf8mb4&parseTime=True&loc=Local"
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+
 	if err != nil {
-		panic(err.Error())
+		fmt.Printf("Error connecting to db")
 	}
+
+	db.AutoMigrate(&models.Car{})
+
 	return db
 }

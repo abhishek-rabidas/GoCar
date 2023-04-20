@@ -1,15 +1,26 @@
 package services
 
 import (
+	"encoding/json"
+	"fmt"
 	"gocar/config"
+	"gocar/models"
 	"net/http"
+
+	"gorm.io/gorm"
 )
 
-func AddCar(w http.ResponseWriter, r *http.Request) {
-	db := config.Connect()
-	defer db.Close()
+var DB *gorm.DB = config.InitializeDB()
 
-	requestBody := r.Body
+func AddCar(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	var car models.Car
+
+	json.NewDecoder(r.Body).Decode(&car)
+	fmt.Printf("%#v\n", car)
+	DB.Create(&car)
+
+	json.NewEncoder(w).Encode(car)
 
 }
 

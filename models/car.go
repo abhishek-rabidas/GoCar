@@ -1,8 +1,10 @@
 package models
 
+import "gorm.io/gorm"
+
 type Car struct {
+	gorm.Model
 	RegistrationNumber string
-	Model              string
+	CarModel           string
 	Color              string
-	Id                 int
 }
